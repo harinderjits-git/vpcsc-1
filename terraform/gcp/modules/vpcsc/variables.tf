@@ -40,12 +40,12 @@ variable "members" {
   type        = list(string)
 }
 
+
 variable "regions" {
   description = "The request must originate from one of the provided countries/regions. Format: A valid ISO 3166-1 alpha-2 code."
   type        = list(string)
   default     = []
 }
-
 
 
 variable "restricted_services" {
