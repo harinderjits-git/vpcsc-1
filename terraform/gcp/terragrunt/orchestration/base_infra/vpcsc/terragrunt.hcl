@@ -1,7 +1,10 @@
 locals {
   env_config     = yamldecode(file("${get_terragrunt_dir()}/../../config_env_sampleapp.yaml"))
   network         = yamldecode(file("${get_terragrunt_dir()}/../../core-prod-networks.yaml"))
-  environment = local.env_config.prod_workloads.prd
+}
+
+dependency xvpc {
+  config_path = "../svpc_network"
 }
 
 terraform {
@@ -13,8 +16,10 @@ inputs = {
 project_id=local.env_config.global.host_project.name
 parent_id = local.env_config.vpcsc.parent_org_id
 policy_name =local.env_config.vpcsc.access_policy_name
+host_network= dependency.xvpc.outputs.network_id
 protected_project_ids = local.env_config.vpcsc.protected_project_ids
-protected_vpcn = local.env_config.vpcsc.protected_vpcn
+#protected_vpcn = local.env_config.vpcsc.protected_vpcn
+protect_xvpc = local.env_config.vpcsc.protect_xvpc
 ip_subnetworks = local.env_config.vpcsc.access_level.allowed_subnets
 members = []
 regions = []

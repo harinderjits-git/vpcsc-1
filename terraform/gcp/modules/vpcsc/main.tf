@@ -28,14 +28,17 @@ resource "null_resource" "wait_for_members" {
   depends_on = [module.access_level_members]
 }
 
+locals {
+  protected_vpcn = var.protect_xvpc == true? var.host_network: null
+}
+
+
 module "regular_service_perimeter_1" {
   source = "./gcp-vpc-sc/modules/regular_service_perimeter"
-
   policy         = module.access_context_manager_policy.policy_id
   perimeter_name = var.perimeter_name
-
   description   = "Perimeter shielding  project"
-  resources     = concat(var.protected_project_ids,var.protected_vpcn)
+  resources     = local.protected_vpcn == null? var.protected_project_ids: concat(var.protected_project_ids,tolist(local.protected_vpcn))
   #resources     = var.protected_project_ids
   access_levels = [module.access_level_members.name]
 
@@ -45,7 +48,7 @@ module "regular_service_perimeter_1" {
     {
       "from" = {
         "sources" = {
-          access_levels = ["*"] # Allow Access from everywhere
+          access_levels = [module.access_level_members.name] # Allow Access from everywhere
         },
         "identities" = ["user:harinderjit.singh@sourcedgroup.com"]
       }
