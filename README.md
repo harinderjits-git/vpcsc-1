@@ -14,6 +14,6 @@ Please have the below installed on your WSL
 
 # Usage
  
-- Usage for GCP has been detailed in https://medium.com/@harinderjitss/testing-business-continuity-of-a-sample-application-using-gke-and-gcp-cloudsql-a21167125757
+- Usage has been detailed in https://medium.com/itnext/implement-gcp-vpc-service-controls-using-terraform-terragrunt-72c6c046b66b
 
 
