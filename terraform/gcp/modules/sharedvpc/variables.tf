@@ -16,14 +16,3 @@ variable "service_projects" {
   default     = null
 }
 
-
-# service_projects:
-#     gke_proj:
-#       project_name: "service-623231-gke"
-#       subnets: 
-#       - name: gke-subnet02-use
-#         region: "us-central1"
-#       - name: gke-subnet02-use
-#         region: "us-central1" 
-
-

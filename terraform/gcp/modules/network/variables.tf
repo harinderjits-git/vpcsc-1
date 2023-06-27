@@ -2,6 +2,7 @@
 
 variable "project" {
   type = string
+    description = "project where network will be created"
 }
 
 # naming

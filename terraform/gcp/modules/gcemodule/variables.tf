@@ -6,7 +6,7 @@ variable "project_id" {
 
 variable "labels" {
   type        = map(string)
-
+  description = "Resource labels."
 }
 
 variable "network" {
