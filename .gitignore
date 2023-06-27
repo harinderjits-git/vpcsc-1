@@ -25,3 +25,4 @@ ssl/
 *.terragrunt*
 
 terraform/gcp/rundir_init/init.tf
+terraform/gcp/terragrunt/orchestration/config_env_sampleapp.yaml
