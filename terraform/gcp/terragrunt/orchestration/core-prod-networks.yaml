@@ -1,16 +1,5 @@
 ---
 internal:
-  additionalUserDefinedString: ~
-  billing_account: 00E11A-0AB9A2-077BE7
-  services:
-    - logging.googleapis.com
-    - servicenetworking.googleapis.com
-    - dns.googleapis.com
-    - container.googleapis.com
-    - cloudapis.googleapis.com
-    - cloudresourcemanager.googleapis.com
-    - monitoring.googleapis.com
-  userDefinedString: sharedvpcprodnet
   networks:
     - network_name: "sharedvpc01"
       routing_mode: "GLOBAL"

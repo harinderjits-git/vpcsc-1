@@ -26,7 +26,8 @@ variable "protected_project_ids" {
   description = "Project number of the project INSIDE the regular service perimeter."
   type        = list(string)
 }
-# variable "protected_vpcn" {
+
+# variable "p_project_ids" {
 #   description = "Project number of the project INSIDE the regular service perimeter."
 #   type        = list(string)
 # }

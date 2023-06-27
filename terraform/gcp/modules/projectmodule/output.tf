@@ -1,8 +1,12 @@
 
 output "id" {
-  value=google_project.project.id
+  value = google_project.project.id
 }
 
 output "name" {
-  value=google_project.project.name
+  value = google_project.project.name
+}
+
+output "number" {
+  value = google_project.project.number
 }

@@ -10,6 +10,10 @@ module "access_context_manager_policy" {
   policy_name = var.policy_name
 }
 
+data google_project p_project_id {
+  for_each = {for i in (var.protected_project_ids): i=>i }
+  project_id = each.value
+}
 module "access_level_members" {
   source         = "./gcp-vpc-sc/modules/access_level"
   description    = "Simple Example Access Level"
@@ -28,8 +32,11 @@ resource "null_resource" "wait_for_members" {
   depends_on = [module.access_level_members]
 }
 
+
 locals {
   protected_vpcn = var.protect_xvpc == true ? var.host_network : null
+  p_project_list            = [ for key,value in merge(data.google_project.p_project_id.*...):  value.number]
+  #p_project_list = [for r in local.pfn : "${r.name}.${r.zone_name}"]
 }
 
 
@@ -38,8 +45,7 @@ module "regular_service_perimeter_1" {
   policy         = module.access_context_manager_policy.policy_id
   perimeter_name = var.perimeter_name
   description    = "Perimeter shielding  project"
-  resources      = local.protected_vpcn == null ? var.protected_project_ids : concat(var.protected_project_ids, tolist(["${local.protected_vpcn}"]))
-  #resources     = var.protected_project_ids
+  resources      = local.protected_vpcn == null ? local.p_project_list : concat(local.p_project_list, tolist(["${local.protected_vpcn}"]))
   access_levels = [module.access_level_members.name]
 
   restricted_services = var.restricted_services
@@ -48,7 +54,7 @@ module "regular_service_perimeter_1" {
     {
       "from" = {
         "sources" = {
-          access_levels = [module.access_level_members.name] # Allow Access from everywhere
+          access_levels = [module.access_level_members.name] # Allow Access from access level only
         },
         "identities" = var.members
       }
@@ -75,3 +81,8 @@ module "regular_service_perimeter_1" {
   }
 
 }
+
+
+# output "name" {
+#   value = local.p_project_list
+# }

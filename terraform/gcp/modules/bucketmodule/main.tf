@@ -10,5 +10,7 @@ resource "google_storage_bucket" "tfstate_bucket" {
   storage_class = "STANDARD"
   force_destroy = true
   labels = var.labels
-  
+   lifecycle {
+    prevent_destroy = true
+  }
 }

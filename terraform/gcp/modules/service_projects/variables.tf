@@ -10,6 +10,20 @@ variable "billing_account" {
   default     = null
 }
 
+variable "host_project" {
+  description = "Billing account id."
+  type        = string
+  default     = null
+}
+
+
+variable "project_id" {
+  description = "Billing account id."
+  type        = string
+  default     = null
+}
+
+
 variable "labels" {
   description = "Resource labels."
   type        = map(string)
@@ -51,11 +65,17 @@ variable "policy_boolean" {
 }
 
 
-variable "project_name" {
-  description = "Service APIs to enable."
-  type        = string
-  default     = ""
+variable "service_projects" {
+  type        = map(object ({
+    project_name = string
+    subnets = list (object({
+      name = string
+      region = string
+    }))
+  }))
+  default     = null
 }
+
 
 variable "services" {
   description = "Service APIs to enable."
@@ -73,18 +93,5 @@ variable "service_config" {
     disable_on_destroy         = true
     disable_dependent_services = true
   }
-}
-
-
-variable "bucketname" {
-  type        = string
-  description = "bucketname"
-  default     = ""
-}
-
-
-variable "location" {
-  type    = string
-  default = ""
 }
 

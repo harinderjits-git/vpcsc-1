@@ -10,15 +10,12 @@ terraform {
 }
 
 inputs = {
-  services                       = local.network.internal.services
   owner                          = local.env_config.global.owner
   billing_account                = local.env_config.global.billing_account
   parent                         = local.env_config.global.host_project.parent
   networks                       = local.network.internal.networks
   environment                    = local.environment.name[0]
   region                         = local.env_config.global.regions[0]
-  user_defined_string            = local.network.internal.userDefinedString
-  additional_user_defined_string = local.network.internal.additionalUserDefinedString
   department_code                = "DEV"
   project                        = local.env_config.global.host_project.id
 }

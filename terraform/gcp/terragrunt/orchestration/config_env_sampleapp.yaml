@@ -1,0 +1,106 @@
+---
+global:
+  owner: None
+  location: "US"
+  regions:
+    - &primaryregion "us-central1"
+    - &drregion "us-east4"
+  remote_state:
+    bucket_name: "statebucket" #replace this value
+  billing_account: "0088888A-0A777777-11111" #replace this value
+  parent_org_id: &org_id "99999999999" #replace this value
+  host_project:
+    parent: folders/00000000000 #replace this value
+    name: &hostproj "p2-rr666-host-shvpcn" #replace this value
+    id: *hostproj
+  service_projects:
+    gke_proj:
+      project_name:  &gke_proj_name "s2-rr666-service-gke" #replace this value
+      subnets:
+        - name: gke-subnet01-use
+          region: "us-east4"
+        - name: gke-subnet01-usc
+          region: "us-central1"
+    gce_proj:
+      project_name: &gce_proj_name "s2-rr666-service-gce" #replace this value
+      subnets:
+        - name: gce-subnet01-use
+          region: "us-east4"
+        - name: gce-subnet01-usc
+          region: "us-central1"
+    cldsql_proj:
+      project_name: &cldsql_proj_name "s2-rr666-service-cldsql" #replace this value
+      subnets: []
+  services:
+    - container.googleapis.com
+    - sql-component.googleapis.com
+    - dns.googleapis.com
+    - servicenetworking.googleapis.com
+    - compute.googleapis.com
+    - iam.googleapis.com
+    - logging.googleapis.com
+    - monitoring.googleapis.com
+    - sqladmin.googleapis.com
+    - securetoken.googleapis.com
+    - cloudfunctions.googleapis.com
+    - cloudbuild.googleapis.com
+    - cloudapis.googleapis.com
+    - accesscontextmanager.googleapis.com
+    - storage-api.googleapis.com
+    - cloudresourcemanager.googleapis.com
+  name_prefix:
+    - vpcsc
+  labels:
+    solutionprovider: harinder
+    solution: vpcsc
+prod_workloads:
+  prd:
+    region: *primaryregion
+    name:
+      - prodprimary
+      - prd
+    labels:
+      env: prodprimary
+    gce:
+      name:
+        - gce01
+      project_name: *gce_proj_name
+      subnetwork:
+        name: "gce-subnet01-usc"
+        project_name: *hostproj
+
+vpcsc:
+  perimeter_name: "regular_vpcsc_perimeter_1"
+  protected_project_ids:
+    - *gce_proj_name 
+    - *gke_proj_name 
+    - *cldsql_proj_name
+    - *hostproj
+  protect_xvpc: true
+  parent_org_id: *org_id 
+  access_policy_name: "accesspolicy1"
+  restricted_services:
+    - container.googleapis.com
+    - dns.googleapis.com
+    - compute.googleapis.com
+    - iam.googleapis.com
+    - logging.googleapis.com
+    - monitoring.googleapis.com
+    - sqladmin.googleapis.com
+    - cloudfunctions.googleapis.com
+    - cloudbuild.googleapis.com
+    - networkconnectivity.googleapis.com
+    - networkmanagement.googleapis.com
+    - networksecurity.googleapis.com
+    - networkservices.googleapis.com
+    - storage.googleapis.com
+  allowed_identities:
+    - "user:abc@xxx.com" #replace this value
+  access_level:
+    allowed_subnets:
+      - "166.48.X.X/32" #replace this value
+    name: "terraform_members"
+    allowed_regions:
+      - "US"
+      - "CA"
+

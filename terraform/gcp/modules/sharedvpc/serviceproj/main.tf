@@ -24,4 +24,6 @@ resource "google_compute_subnetwork_iam_binding" "binding" {
         "serviceAccount:${data.google_project.service.number}-compute@developer.gserviceaccount.com",
         "serviceAccount:${data.google_project.service.number}@cloudservices.gserviceaccount.com",
   ]
+
+  depends_on = [ google_compute_shared_vpc_service_project.serviceproj ]
 }
