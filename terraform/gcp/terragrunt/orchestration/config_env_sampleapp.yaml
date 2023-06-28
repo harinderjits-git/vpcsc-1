@@ -31,7 +31,7 @@ global:
     cldsql_proj:
       project_name: &cldsql_proj_name "s2-rr666-service-cldsql" #replace this value
       subnets: []
-  services:
+  services: # common services added to projects
     - container.googleapis.com
     - sql-component.googleapis.com
     - dns.googleapis.com
@@ -70,16 +70,16 @@ prod_workloads:
         project_name: *hostproj
 
 vpcsc:
-  service_perimeters:
+  service_perimeters: #add or remove service_perimeters here
     perimeter1:
-      perimeter_name: "regular_vpcsc_perimeter_1"
-      protected_project_ids:
+      perimeter_name: "regular_vpcsc_perimeter_1" #name of the perimeter
+      protected_project_ids: #project ids protected by perimeter
         - *gce_proj_name 
         - *gke_proj_name 
         - *cldsql_proj_name
         - *hostproj
-      protect_xvpc: true
-      restricted_services:
+      protect_xvpc: true # true means add shared vpc network to perimeter
+      restricted_services: # services to be restricted by perimeter
         - container.googleapis.com
         - dns.googleapis.com
         - compute.googleapis.com
@@ -94,8 +94,8 @@ vpcsc:
         - networksecurity.googleapis.com
         - networkservices.googleapis.com
         - storage.googleapis.com
-      access_policy_name: "accesspolicy1"
-      allowed_egress_projects: []
+      access_policy_name: "accesspolicy1" #name of access policy
+      allowed_egress_projects: [] #list of the project to which egress is allowed
     perimeter2:
       perimeter_name: "regular_vpcsc_perimeter_2"
       protected_project_ids: []
@@ -116,12 +116,12 @@ vpcsc:
       allowed_egress_projects: []
   parent_org_id: *org_id 
   access_policy_name: "accesspolicy1"
-  allowed_identities:
+  allowed_identities: #list of identities allowed in ingress and access level
     - "user:harinderjit.singh@sourcedgroup.com" #replace this value
   access_level:
-    allowed_subnets:
+    allowed_subnets: #list of  allowed IPS/ subnets in  access level
       - "166.48.58.175/32" #replace this value
     name: "terraform_members"
-    allowed_regions:
+    allowed_regions: #list of  allowed locations in  access level
       - "US"
       - "CA"
