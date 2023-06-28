@@ -12,7 +12,8 @@ data "google_project" "p_project_id" {
 locals {
   protected_vpcn      = var.protect_xvpc == true ? var.host_network : null
   p_project_list      = [for key, value in merge(data.google_project.p_project_id.*...) : value.number]
-  egress_project_list = [for r in var.allowed_egress_projects: "projects/${r}" if length(var.allowed_egress_projects) > 0 ]
+  egress_project_list = [for key, value in merge(data.google_project.p_project_id.*...) : "projects/${value.number}" if length(var.allowed_egress_projects) > 0 && contains(var.allowed_egress_projects, value.project_id)]
+  #  egress_project_list = [for r in var.allowed_egress_projects: "projects/${r}" if length(var.allowed_egress_projects) > 0 ]
 }
 
 
