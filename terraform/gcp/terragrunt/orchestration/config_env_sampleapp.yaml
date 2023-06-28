@@ -70,37 +70,58 @@ prod_workloads:
         project_name: *hostproj
 
 vpcsc:
-  perimeter_name: "regular_vpcsc_perimeter_1"
-  protected_project_ids:
-    - *gce_proj_name 
-    - *gke_proj_name 
-    - *cldsql_proj_name
-    - *hostproj
-  protect_xvpc: true
+  service_perimeters:
+    perimeter1:
+      perimeter_name: "regular_vpcsc_perimeter_1"
+      protected_project_ids:
+        - *gce_proj_name 
+        - *gke_proj_name 
+        - *cldsql_proj_name
+        - *hostproj
+      protect_xvpc: true
+      restricted_services:
+        - container.googleapis.com
+        - dns.googleapis.com
+        - compute.googleapis.com
+        - iam.googleapis.com
+        - logging.googleapis.com
+        - monitoring.googleapis.com
+        - sqladmin.googleapis.com
+        - cloudfunctions.googleapis.com
+        - cloudbuild.googleapis.com
+        - networkconnectivity.googleapis.com
+        - networkmanagement.googleapis.com
+        - networksecurity.googleapis.com
+        - networkservices.googleapis.com
+        - storage.googleapis.com
+      access_policy_name: "accesspolicy1"
+      allowed_egress_projects: []
+    perimeter2:
+      perimeter_name: "regular_vpcsc_perimeter_2"
+      protected_project_ids: []
+      protect_xvpc: false
+      restricted_services:
+        - container.googleapis.com
+        - compute.googleapis.com
+        - iam.googleapis.com
+        - logging.googleapis.com
+        - monitoring.googleapis.com
+        - sqladmin.googleapis.com
+        - networkconnectivity.googleapis.com
+        - networkmanagement.googleapis.com
+        - networksecurity.googleapis.com
+        - networkservices.googleapis.com
+        - storage.googleapis.com
+      access_policy_name: "accesspolicy2"
+      allowed_egress_projects: []
   parent_org_id: *org_id 
   access_policy_name: "accesspolicy1"
-  restricted_services:
-    - container.googleapis.com
-    - dns.googleapis.com
-    - compute.googleapis.com
-    - iam.googleapis.com
-    - logging.googleapis.com
-    - monitoring.googleapis.com
-    - sqladmin.googleapis.com
-    - cloudfunctions.googleapis.com
-    - cloudbuild.googleapis.com
-    - networkconnectivity.googleapis.com
-    - networkmanagement.googleapis.com
-    - networksecurity.googleapis.com
-    - networkservices.googleapis.com
-    - storage.googleapis.com
   allowed_identities:
-    - "user:abc@xxx.com" #replace this value
+    - "user:harinderjit.singh@sourcedgroup.com" #replace this value
   access_level:
     allowed_subnets:
-      - "166.48.X.X/32" #replace this value
+      - "166.48.58.175/32" #replace this value
     name: "terraform_members"
     allowed_regions:
       - "US"
       - "CA"
-
