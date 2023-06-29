@@ -23,6 +23,11 @@ variable "protect_xvpc" {
   default =true
 }
 
+
+variable "allowed_ingress_projects" {
+  type        = list(string)
+  default = []
+}
 variable "allowed_egress_projects" {
   type        = list(string)
   default = []

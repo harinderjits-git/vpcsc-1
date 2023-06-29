@@ -30,6 +30,7 @@ restricted_services = local.env_config.vpcsc.service_perimeters.perimeter1.restr
 perimeter_name  = local.env_config.vpcsc.service_perimeters.perimeter1.perimeter_name
 access_level_name  = dependency.vpcscpolicy.outputs.access_level_name
 allowed_egress_projects = local.env_config.vpcsc.service_perimeters.perimeter1.allowed_egress_projects
+allowed_ingress_projects = local.env_config.vpcsc.service_perimeters.perimeter1.allowed_ingress_projects
 }
 
 generate "provider" {

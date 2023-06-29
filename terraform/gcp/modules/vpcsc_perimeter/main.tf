@@ -14,12 +14,16 @@ data "google_project" "egress_project_id" {
   for_each   = { for i in(var.allowed_egress_projects) : i => i }
   project_id = each.value
 }
-
+data "google_project" "ingress_project_id" {
+  for_each   = { for i in(var.allowed_ingress_projects) : i => i }
+  project_id = each.value
+}
 
 locals {
-  protected_vpcn      = var.protect_xvpc == true ? var.host_network : null
-  p_project_list      = [for key, value in merge(data.google_project.p_project_id.*...) : value.number]
-  egress_project_list = [for key, value in merge(data.google_project.egress_project_id.*...) : "projects/${value.number}" if length(var.allowed_egress_projects) > 0 && contains(var.allowed_egress_projects, value.project_id)]
+  protected_vpcn       = var.protect_xvpc == true ? var.host_network : null
+  p_project_list       = [for key, value in merge(data.google_project.p_project_id.*...) : value.number]
+  egress_project_list  = [for key, value in merge(data.google_project.egress_project_id.*...) : "projects/${value.number}" if length(var.allowed_egress_projects) > 0 && contains(var.allowed_egress_projects, value.project_id)]
+  ingress_project_list = [for key, value in merge(data.google_project.ingress_project_id.*...) : "projects/${value.number}" if length(var.allowed_ingress_projects) > 0 && contains(var.allowed_ingress_projects, value.project_id)]
   #  egress_project_list = [for r in var.allowed_egress_projects: "projects/${r}" if length(var.allowed_egress_projects) > 0 ]
 }
 
@@ -39,6 +43,7 @@ module "regular_service_perimeter_1" {
       "from" = {
         "sources" = {
           access_levels = [var.access_level_name] # Allow Access from access level only
+          resources = length(var.allowed_ingress_projects) == 0 ? [] : local.ingress_project_list
         },
         "identities" = var.members
       }
@@ -57,6 +62,7 @@ module "regular_service_perimeter_1" {
         # }
       }
     },
+
   ]
   egress_policies = length(var.allowed_egress_projects) == 0 ? [] : [
     {
@@ -81,6 +87,6 @@ module "regular_service_perimeter_1" {
 }
 
 
-# output "name" {
-#   value = local.p_project_list
-# }
+output "name" {
+  value = local.ingress_project_list
+}
