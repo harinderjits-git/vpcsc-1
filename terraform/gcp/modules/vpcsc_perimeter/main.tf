@@ -51,7 +51,7 @@ module "regular_service_perimeter_1" {
       "to" = {
         "resources" = ["*"]
         "operations" = {
-          "*"  = {}
+          "*"  = {}  #all services
         }
         # "operations" = {
         #   "storage.googleapis.com" = {
@@ -74,7 +74,7 @@ module "regular_service_perimeter_1" {
       "to" = {
         "resources" = local.egress_project_list
         "operations" = {
-          "*"  = {}
+        "*"  = {} #all services
         }
       }
     },
