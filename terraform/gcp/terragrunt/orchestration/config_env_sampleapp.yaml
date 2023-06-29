@@ -78,6 +78,8 @@ vpcsc:
         - *gke_proj_name 
         - *cldsql_proj_name
         - *hostproj
+      allowed_egress_projects: [] #list of the project to which egress is allowed
+      allowed_ingress_projects: [] #list of the project from which ingress is allowed
       protect_xvpc: true # true means add shared vpc network to perimeter
       restricted_services: # services to be restricted by perimeter
         - container.googleapis.com
@@ -95,11 +97,12 @@ vpcsc:
         - networkservices.googleapis.com
         - storage.googleapis.com
       access_policy_name: "accesspolicy1" #name of access policy
-      allowed_egress_projects: [] #list of the project to which egress is allowed
     perimeter2:
       perimeter_name: "regular_vpcsc_perimeter_2"
       protected_project_ids: []
       protect_xvpc: false
+      allowed_egress_projects: [] #list of the project to which egress is allowed
+      allowed_ingress_projects: [] #list of the project from which ingress is allowed
       restricted_services:
         - container.googleapis.com
         - compute.googleapis.com
@@ -113,11 +116,10 @@ vpcsc:
         - networkservices.googleapis.com
         - storage.googleapis.com
       access_policy_name: "accesspolicy2"
-      allowed_egress_projects: []
   parent_org_id: *org_id 
   access_policy_name: "accesspolicy1"
   allowed_identities: #list of identities allowed in ingress and access level
-    - "user:harinderjit.singh@sourcedgroup.com" #replace this value
+    - "user:harinderjit.singh@xxxx.com" #replace this value
   access_level:
     allowed_subnets: #list of  allowed IPS/ subnets in  access level
       - "166.48.58.175/32" #replace this value

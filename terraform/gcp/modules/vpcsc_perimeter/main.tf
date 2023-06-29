@@ -46,11 +46,12 @@ module "regular_service_perimeter_1" {
           resources = length(var.allowed_ingress_projects) == 0 ? [] : local.ingress_project_list
         },
         "identities" = var.members
+       #identity_type = "ANY_IDENTITY" #IDENTITY_TYPE_UNSPECIFIED, ANY_IDENTITY, ANY_USER_ACCOUNT, ANY_SERVICE_ACCOUNT.
       }
       "to" = {
         "resources" = ["*"]
         "operations" = {
-          #services = "*"
+          "*"  = {}
         }
         # "operations" = {
         #   "storage.googleapis.com" = {
@@ -68,11 +69,12 @@ module "regular_service_perimeter_1" {
     {
       "from" = {
         "identities" = var.members
+          #identity_type = "ANY_IDENTITY" #IDENTITY_TYPE_UNSPECIFIED, ANY_IDENTITY, ANY_USER_ACCOUNT, ANY_SERVICE_ACCOUNT.
       }
       "to" = {
         "resources" = local.egress_project_list
         "operations" = {
-          #services = "*"
+          "*"  = {}
         }
       }
     },
