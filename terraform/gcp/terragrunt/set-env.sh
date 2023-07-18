@@ -12,4 +12,4 @@ export ORCHESTRATION_PATH=${THIS_DIR}/orchestration
 export MAIN_CONFIG_PATH=${THIS_DIR}/orchestration
 export MAIN_CONFIG_FILE_NAME=config_main.yaml
 
-GOOGLE_APPLICATION_CREDENTIALS=/root/.config/gcloud/application_default_credentials.json
+GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/application_default_credentials.json
